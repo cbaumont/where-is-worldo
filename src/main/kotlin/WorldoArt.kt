@@ -1,10 +1,5 @@
 package io.github.cbaumont
 
-fun main() {
-    println(worldo)
-    println("Where is Worldo today?")
-}
-
 val worldo =
     """
         

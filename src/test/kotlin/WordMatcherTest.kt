@@ -1,3 +1,4 @@
+import io.github.cbaumont.WordGuess
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -8,7 +9,7 @@ class WordMatcherTest {
         val correctWord = "ENGLAND"
 
         val guess = WordGuess(
-            name = "GREENLAND",
+            value = "GREENLAND",
         )
 
         val expected = mapOf(
