@@ -1,22 +1,25 @@
 package io.github.cbaumont
 
-@JvmInline
-value class WordGuess(
+data class WordGuess(
     val value: String,
+    val correctWord: String = ""
 ) {
-    fun matches(correctWord: String): Map<Int, Boolean> {
+    val matches: MutableMap<Int, Boolean> = mutableMapOf()
+    val fullMatch: Boolean
+        get() = matches.values.all { it }
+
+
+    init {
         var acc = correctWord
 
-        val result = mutableMapOf<Int, Boolean>()
         for (i in 0..<value.length) {
             if (value[i] in acc) {
-                result[i] = true
+                matches[i] = true
                 acc = acc.replaceFirst("${value[i]}", "", true)
             } else {
-                result[i] = false
+                matches[i] = false
             }
         }
-
-        return result
     }
+
 }
