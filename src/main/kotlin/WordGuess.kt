@@ -2,24 +2,23 @@ package io.github.cbaumont
 
 data class WordGuess(
     val value: String,
-    val correctWord: String = ""
+    val correctWord: String
 ) {
-    val matches: MutableMap<Int, Boolean> = mutableMapOf()
-    val fullMatch: Boolean
-        get() = matches.values.all { it }
+    val matches: Map<Int, Boolean>
+        get() {
+            val result = mutableMapOf<Int, Boolean>()
+            var acc = correctWord.uppercase()
+            val valueUpperCase = value.uppercase()
 
-
-    init {
-        var acc = correctWord
-
-        for (i in 0..<value.length) {
-            if (value[i] in acc) {
-                matches[i] = true
-                acc = acc.replaceFirst("${value[i]}", "", true)
-            } else {
-                matches[i] = false
+            for (i in 0..<valueUpperCase.length) {
+                if (valueUpperCase[i] in acc) {
+                    result[i] = true
+                    acc = acc.replaceFirst("${valueUpperCase[i]}", "", true)
+                } else {
+                    result[i] = false
+                }
             }
+            return result
         }
-    }
-
+    val fullMatch: Boolean by lazy { matches.values.all { it } }
 }
