@@ -5,14 +5,14 @@ data class WordGuess(
     val correctWord: String
 ) {
     val matches: Map<Int, Boolean> by lazy {
-        var matches = correctWord.uppercase()
+        var wordCheck = correctWord.uppercase()
 
         value
             .uppercase()
             .foldIndexed(mutableMapOf()) { i, acc, ch ->
-                if (ch in matches) {
+                if (ch in wordCheck) {
                     acc[i] = true
-                    matches = matches.replaceFirst(ch, Char.MIN_VALUE, true)
+                    wordCheck = wordCheck.replaceFirst(ch, Char.MIN_VALUE, true)
                 } else {
                     acc[i] = false
                 }
