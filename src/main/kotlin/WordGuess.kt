@@ -4,21 +4,20 @@ data class WordGuess(
     val value: String,
     val correctWord: String
 ) {
-    val matches: Map<Int, Boolean>
-        get() {
-            val result = mutableMapOf<Int, Boolean>()
-            var acc = correctWord.uppercase()
-            val valueUpperCase = value.uppercase()
+    val matches: Map<Int, Boolean> by lazy {
+        var matches = correctWord.uppercase()
 
-            for (i in 0..<valueUpperCase.length) {
-                if (valueUpperCase[i] in acc) {
-                    result[i] = true
-                    acc = acc.replaceFirst("${valueUpperCase[i]}", "", true)
+        value
+            .uppercase()
+            .foldIndexed(mutableMapOf()) { i, acc, ch ->
+                if (ch in matches) {
+                    acc[i] = true
+                    matches = matches.replaceFirst(ch, Char.MIN_VALUE, true)
                 } else {
-                    result[i] = false
+                    acc[i] = false
                 }
+                acc
             }
-            return result
-        }
-    val fullMatch: Boolean by lazy { matches.values.all { it } }
+    }
+    val fullMatch: Boolean = matches.values.all { it }
 }
