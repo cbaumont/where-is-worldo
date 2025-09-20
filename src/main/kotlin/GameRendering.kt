@@ -2,16 +2,15 @@ package io.github.cbaumont
 
 import io.github.cbaumont.CLIColours.*
 
-fun interface GameRenderer {
+fun interface GameRendering {
     fun render(guess: WordGuess): String
 
     companion object {
-        fun cliRenderer(): GameRenderer = GameRenderer { guess ->
+        fun cliRendering(): GameRendering = GameRendering { guess ->
             guess.matches.map {
                 if (it.value) {
                     guess.value[it.key].green
-                }
-                else guess.value[it.key]
+                } else guess.value[it.key]
             }.joinToString(" ")
         }
     }

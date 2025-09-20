@@ -1,7 +1,7 @@
 package io.github.cbaumont
 
 class GameLoop(
-    val gameRenderer: GameRenderer,
+    val gameRendering: GameRendering,
     val wordOfTheDay: String,
     gameIntro: String = "$worldo\nWhere is Worldo today?\nStart by making a guess: "
 ) {
@@ -19,14 +19,14 @@ class GameLoop(
             if (!guess.isLocationValid()) {
                 println("Invalid location :(")
             } else {
-                println(gameRenderer.render(wordGuess))
+                println(gameRendering.render(wordGuess))
             }
             println("Make another guess: ")
             guess = readln()
             wordGuess = WordGuess(guess, wordOfTheDay)
             fullMatch = wordGuess.fullMatch
         }
-        println(gameRenderer.render(wordGuess))
+        println(gameRendering.render(wordGuess))
         println("You won!")
     }
 }

@@ -2,7 +2,7 @@ package io.github.cbaumont
 
 fun main() {
     GameLoop(
-        gameRenderer = GameRenderer.cliRenderer(),
+        gameRendering = GameRendering.cliRendering(),
         wordOfTheDay = "ENGLAND",
     ).mainLoop()
 }
