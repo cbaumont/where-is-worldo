@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.2.0"
+    application
 }
 
 group = "io.github.cbaumont"
@@ -18,4 +19,12 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(21)
+}
+
+application {
+    mainClass = "io.github.cbaumont.AppKt"
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
 }
