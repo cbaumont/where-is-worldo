@@ -1,8 +1,8 @@
 package io.github.cbaumont
 
 class GameLoop(
-    val gameRendering: GameRendering,
-    val wordOfTheDay: String,
+    private val gameRendering: GameRendering,
+    private val wordOfTheDay: String,
     gameIntro: String = "$worldo\nWhere is Worldo today?\nStart by making a guess: "
 ) {
     init {
