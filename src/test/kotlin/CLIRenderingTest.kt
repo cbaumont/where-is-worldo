@@ -24,4 +24,37 @@ class CLIRenderingTest {
         assertEquals(expected, result)
     }
 
+    @Test
+    fun `renders correct matches in green when full match`() {
+        val gameRendering = GameRendering.cliRendering()
+
+        val guess = WordGuess(
+            value = "GUI",
+            correctWord = "GUI"
+        )
+
+        val result = gameRendering.render(guess)
+
+        val expected = "${CLIColours.GREEN.code}G${CLIColours.DEFAULT.code} " +
+                "${CLIColours.GREEN.code}U${CLIColours.DEFAULT.code} " +
+                "${CLIColours.GREEN.code}I${CLIColours.DEFAULT.code}"
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `does not render any characters in green when no matches`() {
+        val gameRendering = GameRendering.cliRendering()
+
+        val guess = WordGuess(
+            value = "ABC",
+            correctWord = "GUI"
+        )
+
+        val result = gameRendering.render(guess)
+
+        val expected = "A B C"
+        assertEquals(expected, result)
+    }
+
 }

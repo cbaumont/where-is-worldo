@@ -1,6 +1,7 @@
 package io.github.cbaumont
 
-import io.github.cbaumont.CLIColours.*
+import io.github.cbaumont.CLIColours.DEFAULT
+import io.github.cbaumont.CLIColours.GREEN
 
 fun interface GameRendering {
     fun render(guess: WordGuess): String
