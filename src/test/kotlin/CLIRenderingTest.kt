@@ -1,4 +1,5 @@
 import io.github.cbaumont.CLIColours
+import io.github.cbaumont.ConsoleWriter
 import io.github.cbaumont.GameRendering
 import io.github.cbaumont.WordGuess
 import kotlin.test.Test
@@ -55,6 +56,30 @@ class CLIRenderingTest {
 
         val expected = "A B C"
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun `reads and writes message to console`() {
+        var readCount = 0
+        var messageCheck = ""
+        val consoleSpy = object : ConsoleWriter {
+            override fun read(): String {
+                readCount++
+                return ""
+            }
+
+            override fun write(message: String) {
+                messageCheck = message
+            }
+        }
+
+        val gameRendering = GameRendering.cliRendering(consoleSpy)
+
+        gameRendering.readUserInput()
+        gameRendering.showMessage("Some message")
+
+        assertEquals("Some message", messageCheck)
+        assertEquals(1, readCount)
     }
 
 }

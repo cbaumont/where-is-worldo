@@ -9,21 +9,18 @@ interface GameRendering {
     fun showMessage(message: String): Unit
 
     companion object {
-        fun cliRendering(): GameRendering = object : GameRendering {
-            override fun renderGuess(guess: WordGuess): String = guess.matches.map {
-                if (it.value) {
-                    guess.value[it.key].green
-                } else guess.value[it.key]
-            }.joinToString(" ")
+        fun cliRendering(writer: ConsoleWriter = ConsoleWriter.defaultWriter()): GameRendering =
+            object : GameRendering {
+                override fun renderGuess(guess: WordGuess): String = guess.matches.map {
+                    if (it.value) {
+                        guess.value[it.key].green
+                    } else guess.value[it.key]
+                }.joinToString(" ")
 
-            override fun readUserInput(): String {
-                return readln()
-            }
+                override fun readUserInput(): String = writer.read()
 
-            override fun showMessage(message: String) {
-                println(message)
+                override fun showMessage(message: String) = writer.write(message)
             }
-        }
     }
 }
 
@@ -34,3 +31,17 @@ enum class CLIColours(val code: String) {
 
 private val Char.green
     get() = "${GREEN.code}$this${DEFAULT.code}"
+
+interface ConsoleWriter {
+    fun read(): String
+    fun write(message: String)
+
+    companion object {
+        fun defaultWriter(): ConsoleWriter = object : ConsoleWriter {
+            override fun read(): String = readln()
+
+            override fun write(message: String) = println(message)
+
+        }
+    }
+}
