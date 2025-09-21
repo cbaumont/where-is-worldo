@@ -3,16 +3,26 @@ package io.github.cbaumont
 import io.github.cbaumont.CLIColours.DEFAULT
 import io.github.cbaumont.CLIColours.GREEN
 
-fun interface GameRendering {
-    fun render(guess: WordGuess): String
+interface GameRendering {
+    fun renderGuess(guess: WordGuess): String
+    fun readUserInput(): String
+    fun showMessage(message: String): Unit
 
     companion object {
-        fun cliRendering(): GameRendering = GameRendering { guess ->
-            guess.matches.map {
+        fun cliRendering(): GameRendering = object : GameRendering {
+            override fun renderGuess(guess: WordGuess): String = guess.matches.map {
                 if (it.value) {
                     guess.value[it.key].green
                 } else guess.value[it.key]
             }.joinToString(" ")
+
+            override fun readUserInput(): String {
+                return readln()
+            }
+
+            override fun showMessage(message: String) {
+                println(message)
+            }
         }
     }
 }

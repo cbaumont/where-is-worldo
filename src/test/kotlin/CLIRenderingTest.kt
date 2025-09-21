@@ -15,7 +15,7 @@ class CLIRenderingTest {
             correctWord = "GLASS"
         )
 
-        val result = gameRendering.render(guess)
+        val result = gameRendering.renderGuess(guess)
 
         val expected = "${CLIColours.GREEN.code}G${CLIColours.DEFAULT.code} U E " +
                 "${CLIColours.GREEN.code}S${CLIColours.DEFAULT.code} " +
@@ -33,7 +33,7 @@ class CLIRenderingTest {
             correctWord = "GUI"
         )
 
-        val result = gameRendering.render(guess)
+        val result = gameRendering.renderGuess(guess)
 
         val expected = "${CLIColours.GREEN.code}G${CLIColours.DEFAULT.code} " +
                 "${CLIColours.GREEN.code}U${CLIColours.DEFAULT.code} " +
@@ -51,7 +51,7 @@ class CLIRenderingTest {
             correctWord = "GUI"
         )
 
-        val result = gameRendering.render(guess)
+        val result = gameRendering.renderGuess(guess)
 
         val expected = "A B C"
         assertEquals(expected, result)
