@@ -92,15 +92,17 @@ fun interface WebView : (Game) -> String {
                 ) =
                     div("board") {
                         validGuesses.reversed().forEachIndexed { idx, guess ->
+                            val notFullMatch = !guess.fullMatch
                             div("row") {
                                 guess.matches.forEach {
                                     val char = guess.value[it.key]
-                                    val correctOrAbsent = if (char == ' ' || !it.value) "absent" else "correct"
+                                    val correctOrAbsent =
+                                        if ((char == ' ' && notFullMatch) || !it.value) "absent" else "correct"
                                     val slide = if (idx == 0 && animationEnabled) " slide" else ""
                                     val tiny = if (tinyTiles) " tiny" else ""
                                     div("tile $correctOrAbsent$slide$tiny") { +char.toString() }
                                 }
-                                if (!guess.fullMatch && hintsEnabled) distanceHint(guess)
+                                if (notFullMatch && hintsEnabled) distanceHint(guess)
                             }
                         }
                     }
