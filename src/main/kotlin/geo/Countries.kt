@@ -2,8 +2,8 @@ package com.abacatogames.geo
 
 import kotlin.random.Random
 
-fun String.isAValidCountry(validLocations: Collection<String> = CountryNames): Boolean =
-    validLocations.asSequence().map(String::uppercase).contains(this.uppercase())
+fun String.isAValidCountry(): Boolean =
+    CountryNames.asSequence().map(String::uppercase).contains(this.uppercase())
 
 fun randomCountry(random: Random): String = CountryNames.random(random)
 
