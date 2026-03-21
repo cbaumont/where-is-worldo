@@ -42,12 +42,13 @@ data class GameSession(val dateRef: Long, val guesses: List<WordGuess?>)
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
-fun Application.module() {
+fun Application.module(
+    geoDistance: GeoDistance
+) {
     val secretEncryptKey =
         environment.config.property("secrets.encryptKey").getString()
     val secretSignKey =
         environment.config.property("secrets.signKey").getString()
-    val geoDistance: GeoDistance = GeoDistance.create()
     val webView: WebView = WebView.create(geoDistance)
     val validator: (String) -> Boolean = String::isAValidCountry
     val randomizer: Randomizer = ::randomCountry
