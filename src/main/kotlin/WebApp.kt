@@ -1,8 +1,11 @@
 package com.abacatogames
 
 import com.abacatogames.geo.isAValidCountry
+import com.abacatogames.geo.randomCountry
 import com.abacatogames.view.WebView
 import com.abacatogames.view.gameErrorPage
+import com.abacatogames.word.Randomizer
+import com.abacatogames.word.WordGenerator
 import com.abacatogames.word.WordGuess
 import com.abacatogames.word.generateWordForDate
 import io.ktor.http.CacheControl
@@ -43,6 +46,10 @@ fun Application.module() {
         environment.config.property("secrets.encryptKey").getString()
     val secretSignKey =
         environment.config.property("secrets.signKey").getString()
+    val webView: (Game) -> String = WebView.create()
+    val validator: (String) -> Boolean = String::isAValidCountry
+    val randomizer: Randomizer = ::randomCountry
+    val wordGenerator: WordGenerator = ::generateWordForDate
 
     install(Sessions) {
         cookie<GameSession>("game_session") {
@@ -73,14 +80,14 @@ fun Application.module() {
                 }
 
                 val game = Game(
-                    proposedWord = generateWordForDate(LocalDate.now()),
-                    validator = String::isAValidCountry,
+                    proposedWord = wordGenerator(LocalDate.now(), randomizer),
+                    validator = validator,
                     guesses = call.sessions.get<GameSession>()!!.guesses
                 )
 
                 call.respond(
                     TextContent(
-                        WebView.create()(game),
+                        webView(game),
                         ContentType.Text.Html.withCharset(Charsets.UTF_8),
                         HttpStatusCode.OK
                     )
@@ -92,8 +99,8 @@ fun Application.module() {
                 val session = call.sessions.get<GameSession>() ?: error("Game not found")
 
                 val game = Game(
-                    proposedWord = generateWordForDate(LocalDate.now()),
-                    validator = String::isAValidCountry,
+                    proposedWord = wordGenerator(LocalDate.now(), randomizer),
+                    validator = validator,
                     guesses = session.guesses
                 )
 
