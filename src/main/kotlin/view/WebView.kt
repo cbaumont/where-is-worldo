@@ -149,17 +149,17 @@ fun interface WebView : (Game) -> String {
 
                 private fun FlowContent.howToPlay() {
                     details {
-                        summary("how-to title") { +"How to play?" }
-                        p("how-to") {
+                        summary("details title") { +"How to play?" }
+                        p("details") {
                             +"""
                                 Every day Wordo travels to a different country. You have 6 attempts to discover where he is.
                                 If a letter in your guess matches a letter in the correct country (regardless of the position), its tile will be green. If it doesn’t, it will be brown.
                                 Additionally, after each attempt, you will see a hint: a tile showing the distance* and direction** between your guess and the correct country.
                             """.trimIndent()
                         }
-                        p("how-to") { +"In the following example, \"Guyana\" contains two \"A\"s and only one turns green, meaning that the correct country (Greenland) has only one \"A\"." }
+                        p("details") { +"In the following example, \"Guyana\" contains two \"A\"s and only one turns green, meaning that the correct country (Greenland) has only one \"A\"." }
                         gameBoard(validGuesses = listOf(WordGuess("Guyana", "Greenland")), animationEnabled = false)
-                        p("how-to notes") {
+                        p("details notes") {
                             +"* Distances are calculated based on the approx center of both countries."
                             br
                             +"** Direction is calculated using a simplified version of the azimuth formula. It might not always be very precise or intuitive, specially on long distances."
@@ -195,14 +195,19 @@ private fun CardinalDirection.toArrow(): String =
         NORTH_EAST -> "↗️"
     }
 
-suspend fun RoutingCall.gameNotFound() =
-    respondHtml(HttpStatusCode.NotFound) {
+suspend fun RoutingCall.gameErrorPage(error: Throwable) =
+    respondHtml(HttpStatusCode.InternalServerError) {
         head {
-            title { +"Game not found" }
+            title { +"Where is Wordo?" }
             style { +styles.toString() }
         }
         body {
-            h1 { +"Game not found :(" }
-            h2 { +"Sorry, but the game session was not found. Please contact the game admin." }
+            h1 { +"Unexpected error occurred. :(" }
+            h2 { +"Sorry, but the game server returned an unexpected error. Please try again later." }
+            details {
+                summary("details title") { +"Error details" }
+                p("details") { +error.stackTraceToString() }
+                p("details") { +"If you need help with this error, contact us at contact@abacatogames.com" }
+            }
         }
     }

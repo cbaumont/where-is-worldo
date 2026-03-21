@@ -262,17 +262,17 @@ val styles = CssBuilder().apply {
         animationIterationCount = Int.MAX_VALUE
         animationName = "color-animation"
     }
-    rule(".how-to") {
+    rule(".details") {
         padding = Padding(12.px)
         fontSize = 1.3.em
         color = Color.blackBean
         textAlign = TextAlign.justify
     }
-    rule(".how-to.notes") {
+    rule(".details.notes") {
         fontSize = 1.em
         fontStyle = FontStyle.italic
     }
-    rule(".how-to.title") {
+    rule(".details.title") {
         fontSize = 1.5.em
         textAlign = TextAlign.center
     }

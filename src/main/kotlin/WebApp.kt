@@ -2,7 +2,7 @@ package com.abacatogames
 
 import com.abacatogames.geo.isAValidCountry
 import com.abacatogames.view.WebView
-import com.abacatogames.view.gameNotFound
+import com.abacatogames.view.gameErrorPage
 import com.abacatogames.word.WordGuess
 import com.abacatogames.word.generateWordForDate
 import io.ktor.http.CacheControl
@@ -64,26 +64,28 @@ fun Application.module() {
             call.respondText(text = "Hello, Wordo!")
         }
         get("/") {
-            val currentDateRef = LocalDate.now().toEpochDay()
-            val session = call.sessions.get<GameSession>()
+            runCatching {
+                val currentDateRef = LocalDate.now().toEpochDay()
+                val session = call.sessions.get<GameSession>()
 
-            if (session == null || currentDateRef > session.dateRef) {
-                call.sessions.set(GameSession(dateRef = currentDateRef, guesses = listOf()))
-            }
+                if (session == null || currentDateRef > session.dateRef) {
+                    call.sessions.set(GameSession(dateRef = currentDateRef, guesses = listOf()))
+                }
 
-            val game = Game(
-                proposedWord = generateWordForDate(LocalDate.now()),
-                validator = String::isAValidCountry,
-                guesses = call.sessions.get<GameSession>()!!.guesses
-            )
-
-            call.respond(
-                TextContent(
-                    WebView.create()(game),
-                    ContentType.Text.Html.withCharset(Charsets.UTF_8),
-                    HttpStatusCode.OK
+                val game = Game(
+                    proposedWord = generateWordForDate(LocalDate.now()),
+                    validator = String::isAValidCountry,
+                    guesses = call.sessions.get<GameSession>()!!.guesses
                 )
-            )
+
+                call.respond(
+                    TextContent(
+                        WebView.create()(game),
+                        ContentType.Text.Html.withCharset(Charsets.UTF_8),
+                        HttpStatusCode.OK
+                    )
+                )
+            }.onFailure { call.gameErrorPage(it) }
         }
         post("/") {
             runCatching {
@@ -102,7 +104,7 @@ fun Application.module() {
 
                 call.sessions.set<GameSession>(session.copy(guesses = game.allGuesses))
                 call.respondRedirect("/")
-            }.onFailure { call.gameNotFound() }
+            }.onFailure { call.gameErrorPage(it) }
         }
         staticResources("/", "static")
     }
