@@ -40,7 +40,7 @@ import kotlinx.html.title
 
 fun interface WebView : (Game) -> String {
     companion object {
-        fun create(geoDistance: GeoDistance = GeoDistance.create()): WebView =
+        fun create(geoDistance: GeoDistance): WebView =
             object : WebView {
                 override fun invoke(game: Game): String =
                     createHTML().html {

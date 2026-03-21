@@ -1,5 +1,6 @@
 package com.abacatogames
 
+import com.abacatogames.geo.GeoDistance
 import com.abacatogames.geo.isAValidCountry
 import com.abacatogames.geo.randomCountry
 import com.abacatogames.view.WebView
@@ -46,7 +47,8 @@ fun Application.module() {
         environment.config.property("secrets.encryptKey").getString()
     val secretSignKey =
         environment.config.property("secrets.signKey").getString()
-    val webView: (Game) -> String = WebView.create()
+    val geoDistance: GeoDistance = GeoDistance.create()
+    val webView: WebView = WebView.create(geoDistance)
     val validator: (String) -> Boolean = String::isAValidCountry
     val randomizer: Randomizer = ::randomCountry
     val wordGenerator: WordGenerator = ::generateWordForDate
