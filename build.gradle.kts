@@ -23,6 +23,7 @@ dependencies {
     implementation("io.ktor:ktor-server-html-builder")
     implementation("io.ktor:ktor-server-sessions")
     implementation("io.ktor:ktor-server-caching-headers")
+    implementation("io.ktor:ktor-server-di")
     implementation("net.sf.geographiclib:GeographicLib-Java:2.1")
 }
 

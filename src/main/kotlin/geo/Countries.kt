@@ -18,7 +18,7 @@ sealed interface GeoLocation {
 data class Country(
     override val name: String,
     override val latitude: Double,
-    override val longitude: Double
+    override val longitude: Double,
 ) : GeoLocation {
     companion object {
         fun of(name: String): Country =
