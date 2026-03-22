@@ -15,7 +15,6 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:3.4.1")
     implementation("io.ktor:ktor-server-content-negotiation:3.4.1")
-    testImplementation(kotlin("test"))
     implementation("org.jetbrains.kotlinx:kotlinx-html:0.12.0")
     implementation("org.jetbrains.kotlin-wrappers:kotlin-css:2025.11.5")
     implementation("io.ktor:ktor-server-core")
@@ -25,6 +24,8 @@ dependencies {
     implementation("io.ktor:ktor-server-caching-headers")
     implementation("io.ktor:ktor-server-di")
     implementation("net.sf.geographiclib:GeographicLib-Java:2.1")
+    testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation(kotlin("test"))
 }
 
 tasks.test {
