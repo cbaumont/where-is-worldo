@@ -1,4 +1,5 @@
-import com.abacatogames.word.WordGuess
+package com.abacatogames.word
+
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

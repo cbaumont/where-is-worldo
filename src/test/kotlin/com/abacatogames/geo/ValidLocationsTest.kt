@@ -1,4 +1,5 @@
-import com.abacatogames.geo.isAValidCountry
+package com.abacatogames.geo
+
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

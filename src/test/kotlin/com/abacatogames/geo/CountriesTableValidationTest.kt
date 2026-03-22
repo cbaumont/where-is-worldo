@@ -1,4 +1,5 @@
-import com.abacatogames.geo.CountriesTable
+package com.abacatogames.geo
+
 import java.text.Normalizer
 import java.util.Locale
 import kotlin.test.Test

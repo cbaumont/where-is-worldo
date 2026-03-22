@@ -1,6 +1,6 @@
+package com.abacatogames.view
+
 import com.abacatogames.Game
-import com.abacatogames.view.CLIColours
-import com.abacatogames.view.CLIView
 import kotlin.test.Test
 import kotlin.test.assertContains
 

@@ -1,5 +1,6 @@
+package com.abacatogames.word
+
 import com.abacatogames.geo.randomCountry
-import com.abacatogames.word.WordGenerator
 import java.time.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals

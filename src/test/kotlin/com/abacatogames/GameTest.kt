@@ -1,5 +1,5 @@
-import com.abacatogames.Game
-import com.abacatogames.GameState
+package com.abacatogames
+
 import com.abacatogames.geo.isAValidCountry
 import kotlin.test.Test
 import kotlin.test.assertContains

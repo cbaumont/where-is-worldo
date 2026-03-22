@@ -1,6 +1,7 @@
+package com.abacatogames.view
+
 import com.abacatogames.Game
 import com.abacatogames.geo.GeoDistance
-import com.abacatogames.view.WebView
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertTrue

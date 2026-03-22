@@ -1,3 +1,5 @@
+package com.abacatogames.view
+
 import com.abacatogames.Game
 import com.abacatogames.geo.isAValidCountry
 import kotlin.test.Test

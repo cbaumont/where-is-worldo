@@ -1,7 +1,5 @@
-import com.abacatogames.geo.CardinalDirection
-import com.abacatogames.geo.Country
-import com.abacatogames.geo.Distance
-import com.abacatogames.geo.GeoDistance
+package com.abacatogames.geo
+
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
