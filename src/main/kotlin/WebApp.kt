@@ -1,8 +1,6 @@
 package com.abacatogames
 
 import com.abacatogames.view.gameErrorPage
-import com.abacatogames.word.Randomizer
-import com.abacatogames.word.WordGenerator
 import com.abacatogames.word.WordGuess
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
@@ -39,8 +37,7 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module(
     validator: (String) -> Boolean,
-    randomizer: Randomizer,
-    wordGenerator: WordGenerator,
+    wordGenerator: (LocalDate) -> String,
     webView: (Game) -> String,
 ) {
     val secretEncryptKey =
@@ -77,7 +74,7 @@ fun Application.module(
                 }
 
                 val game = Game(
-                    proposedWord = wordGenerator(LocalDate.now(), randomizer),
+                    proposedWord = wordGenerator(LocalDate.now()),
                     validator = validator,
                     guesses = call.sessions.get<GameSession>()!!.guesses
                 )
@@ -96,7 +93,7 @@ fun Application.module(
                 val session = call.sessions.get<GameSession>() ?: error("Game not found")
 
                 val game = Game(
-                    proposedWord = wordGenerator(LocalDate.now(), randomizer),
+                    proposedWord = wordGenerator(LocalDate.now()),
                     validator = validator,
                     guesses = session.guesses
                 )

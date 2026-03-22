@@ -6,15 +6,15 @@ import java.time.ZoneOffset.UTC
 import kotlin.random.Random
 
 var lastUpdated: LocalDate = LocalDate.now()
-fun generateWordForDate(
-    date: LocalDate,
-    randomizer: Randomizer
-): String {
-    if (date > lastUpdated) {
-        lastUpdated = date
-    }
-    return randomizer(Random(lastUpdated.toEpochSecond(MIN, UTC)))
-}
 
-typealias Randomizer = (Random) -> String
-typealias WordGenerator = (LocalDate, Randomizer) -> String
+fun interface WordGenerator : (LocalDate) -> String {
+    companion object {
+        fun create(randomizer: (Random) -> String) =
+            WordGenerator { date ->
+                if (date > lastUpdated) {
+                    lastUpdated = date
+                }
+                randomizer(Random(lastUpdated.toEpochSecond(MIN, UTC)))
+            }
+    }
+}
