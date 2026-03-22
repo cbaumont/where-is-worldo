@@ -1,14 +1,9 @@
 package com.abacatogames
 
-import com.abacatogames.geo.GeoDistance
-import com.abacatogames.geo.isAValidCountry
-import com.abacatogames.geo.randomCountry
-import com.abacatogames.view.WebView
 import com.abacatogames.view.gameErrorPage
 import com.abacatogames.word.Randomizer
 import com.abacatogames.word.WordGenerator
 import com.abacatogames.word.WordGuess
-import com.abacatogames.word.generateWordForDate
 import io.ktor.http.CacheControl
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -43,16 +38,15 @@ data class GameSession(val dateRef: Long, val guesses: List<WordGuess?>)
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module(
-    geoDistance: GeoDistance
+    validator: (String) -> Boolean,
+    randomizer: Randomizer,
+    wordGenerator: WordGenerator,
+    webView: (Game) -> String,
 ) {
     val secretEncryptKey =
         environment.config.property("secrets.encryptKey").getString()
     val secretSignKey =
         environment.config.property("secrets.signKey").getString()
-    val webView: WebView = WebView.create(geoDistance)
-    val validator: (String) -> Boolean = String::isAValidCountry
-    val randomizer: Randomizer = ::randomCountry
-    val wordGenerator: WordGenerator = ::generateWordForDate
 
     install(Sessions) {
         cookie<GameSession>("game_session") {
