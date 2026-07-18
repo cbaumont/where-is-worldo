@@ -22,7 +22,6 @@ import kotlinx.css.alignItems
 import kotlinx.css.animationDelay
 import kotlinx.css.animationDuration
 import kotlinx.css.animationFillMode
-import kotlinx.css.animationIterationCount
 import kotlinx.css.animationName
 import kotlinx.css.animationTimingFunction
 import kotlinx.css.backgroundColor
@@ -58,6 +57,7 @@ import kotlinx.css.marginBottom
 import kotlinx.css.marginTop
 import kotlinx.css.maxWidth
 import kotlinx.css.minHeight
+import kotlinx.css.opacity
 import kotlinx.css.padding
 import kotlinx.css.paddingBottom
 import kotlinx.css.pct
@@ -260,7 +260,7 @@ private fun CssBuilder.boardStyles() {
         animationTimingFunction = Timing.easeInOut
         animationFillMode = FillMode.forwards
     }
-    (1..100).forEach { i ->
+    (1..41).forEach { i ->
         rule(".tile:nth-child($i)") {
             animationDelay = (i * 0.03).s
         }
@@ -294,36 +294,57 @@ private fun CssBuilder.boardStyles() {
 }
 
 private fun CssBuilder.motion() {
-    keyframes("color-animation") {
-        0 { color = Color.blackBean }
-        20 { color = Color.darkRed }
-        40 { color = Color.cafeNoir }
-        60 { color = Color.darkOliveGreen }
-        80 { color = Color.darkSlateBlue }
-        100 { color = Color.blackBean }
-    }
     keyframes("slide-in") {
         from {
             val tsf = Transforms()
-            tsf.translateX(100.pct)
-            tsf.translateY((-10).px)
+            tsf.translateX(40.pct)
+            tsf.translateY((-6).px)
             transform = tsf
+            opacity = 0.0
         }
         to {
             val tsf = Transforms()
             tsf.translateX(0.px)
             tsf.translateY(0.px)
             transform = tsf
+            opacity = 1.0
         }
     }
-    rule(".color-gif") {
-        color = Color.blackBean
+    keyframes("banner-in") {
+        from {
+            val tsf = Transforms()
+            tsf.translateY(8.px)
+            transform = tsf
+            opacity = 0.0
+        }
+        to {
+            val tsf = Transforms()
+            tsf.translateY(0.px)
+            transform = tsf
+            opacity = 1.0
+        }
+    }
+    rule(".banner") {
+        display = Display.inlineFlex
+        alignItems = Align.center
+        justifyContent = JustifyContent.center
+        margin = Margin(0.px, LinearDimension.auto, space5)
+        padding = Padding(space3, space6)
+        borderRadius = 999.px
+        color = Color.white
         fontWeight = FontWeight.bold
-        fontSize = 24.px
-        animationDuration = 3.5.s
-        animationTimingFunction = Timing.linear
-        animationIterationCount = Int.MAX_VALUE
-        animationName = "color-animation"
+        fontSize = 20.px
+        letterSpacing = 2.px
+        animationName = "banner-in"
+        animationDuration = 0.5.s
+        animationTimingFunction = Timing.easeInOut
+        animationFillMode = FillMode.forwards
+    }
+    rule(".banner-won") {
+        backgroundColor = Color.correctGuess
+    }
+    rule(".banner-lost") {
+        backgroundColor = Color.lossBrick
     }
 }
 
@@ -413,6 +434,11 @@ private fun CssBuilder.responsive() {
         }
         rule(".site-header") {
             gap = space2
+        }
+    }
+    media("(prefers-reduced-motion: reduce)") {
+        rule(".tile.slide, .row.slide, .banner") {
+            put("animation", "none")
         }
     }
 }

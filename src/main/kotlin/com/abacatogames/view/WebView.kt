@@ -123,12 +123,12 @@ fun interface WebView : (Game) -> String {
                     when (game.state) {
                         GameState.WON -> {
                             h2("won") { +"Congratulations, you found Wordo!" }
-                            div("form-slot color-gif") { +"YOU WON!" }
+                            div("form-slot banner banner-won") { +"YOU WON!" }
                         }
 
                         GameState.LOST -> {
                             h2("lost") { +"You’re out of attempts for today — better luck tomorrow!" }
-                            div("form-slot color-gif") { +"GAME OVER" }
+                            div("form-slot banner banner-lost") { +"GAME OVER" }
                         }
 
                         GameState.NEW -> {
