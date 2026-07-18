@@ -1,44 +1,44 @@
 package com.abacatogames.view
 
 import kotlinx.css.Align
-import kotlinx.css.BackgroundRepeat
 import kotlinx.css.Border
 import kotlinx.css.BorderStyle
+import kotlinx.css.BoxSizing
 import kotlinx.css.Color
 import kotlinx.css.CssBuilder
+import kotlinx.css.Cursor
 import kotlinx.css.Display
 import kotlinx.css.FlexDirection
+import kotlinx.css.FlexWrap
 import kotlinx.css.FontStyle
 import kotlinx.css.FontWeight
-import kotlinx.css.Image
 import kotlinx.css.JustifyContent
+import kotlinx.css.LinearDimension
 import kotlinx.css.Margin
 import kotlinx.css.Padding
-import kotlinx.css.Position
-import kotlinx.css.RelativePosition
 import kotlinx.css.TextAlign
 import kotlinx.css.TextTransform
 import kotlinx.css.alignItems
 import kotlinx.css.animationDelay
 import kotlinx.css.animationDuration
 import kotlinx.css.animationFillMode
-import kotlinx.css.animationIterationCount
 import kotlinx.css.animationName
 import kotlinx.css.animationTimingFunction
 import kotlinx.css.backgroundColor
 import kotlinx.css.backgroundImage
-import kotlinx.css.backgroundPosition
-import kotlinx.css.backgroundRepeat
-import kotlinx.css.backgroundSize
 import kotlinx.css.border
 import kotlinx.css.borderRadius
-import kotlinx.css.bottom
 import kotlinx.css.boxShadow
+import kotlinx.css.boxSizing
+import kotlinx.css.caretColor
 import kotlinx.css.color
+import kotlinx.css.cursor
 import kotlinx.css.display
 import kotlinx.css.em
 import kotlinx.css.flexDirection
 import kotlinx.css.flexGrow
+import kotlinx.css.flexShrink
+import kotlinx.css.flexWrap
 import kotlinx.css.fontFamily
 import kotlinx.css.fontSize
 import kotlinx.css.fontStyle
@@ -50,17 +50,20 @@ import kotlinx.css.h2
 import kotlinx.css.height
 import kotlinx.css.justifyContent
 import kotlinx.css.keyframes
-import kotlinx.css.left
 import kotlinx.css.letterSpacing
+import kotlinx.css.lineHeight
 import kotlinx.css.margin
 import kotlinx.css.marginBottom
+import kotlinx.css.marginTop
 import kotlinx.css.maxWidth
+import kotlinx.css.minHeight
+import kotlinx.css.opacity
 import kotlinx.css.padding
 import kotlinx.css.paddingBottom
 import kotlinx.css.pct
-import kotlinx.css.position
 import kotlinx.css.properties.BoxShadow
 import kotlinx.css.properties.FillMode
+import kotlinx.css.properties.LineHeight
 import kotlinx.css.properties.Timing
 import kotlinx.css.properties.Transforms
 import kotlinx.css.properties.deg
@@ -73,16 +76,40 @@ import kotlinx.css.rem
 import kotlinx.css.textAlign
 import kotlinx.css.textTransform
 import kotlinx.css.transform
+import kotlinx.css.vh
 import kotlinx.css.vw
 import kotlinx.css.width
 
+private val space4px = 4.px
+private val space8px = 8.px
+private val space12px = 12.px
+private val space16px = 16.px
+private val space24px = 24.px
+private val space32px = 32.px
+private val radiusSmall = 6.px
+private val radiusMedium = 8.px
+private val radiusLarge = 12.px
+private const val fontStack = "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace"
+
 val styles = CssBuilder().apply {
+    base()
+    headerStyles()
+    typography()
+    formStyles()
+    boardStyles()
+    motion()
+    detailsStyles()
+    footerStyles()
+    responsive()
+}
+
+private fun CssBuilder.base() {
     root {
         backgroundColor = Color.bgBrown
         margin = Margin(0.px)
         padding = Padding(0.px)
     }
-    rule("html, body") {
+    rule("html") {
         height = 100.pct
         margin = Margin(0.px)
         padding = Padding(0.px)
@@ -91,69 +118,102 @@ val styles = CssBuilder().apply {
         display = Display.flex
         flexDirection = FlexDirection.column
         alignItems = Align.center
-        fontFamily = "monospace"
-        padding = Padding(32.px)
+        fontFamily = fontStack
+        margin = Margin(0.px)
+        padding = Padding(space32px)
+        minHeight = 100.vh
+        boxSizing = BoxSizing.borderBox
     }
     rule(".container") {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        flexGrow = 1.0
         maxWidth = 1280.px
         width = 100.pct
         margin = Margin(0.px)
         textAlign = TextAlign.center
     }
-    rule(".with-image") {
-        backgroundImage = Image("url(/wordov3.webp)")
-        backgroundSize = "contain"
-        backgroundPosition = RelativePosition.rightTop(yOffset = 0.px, xOffset = clamp(100.px, 8.5.vw, 120.px))
-        backgroundRepeat = BackgroundRepeat.noRepeat
-        padding = Padding(0.5.vw)
+}
+
+private fun CssBuilder.headerStyles() {
+    rule(".site-header") {
+        display = Display.flex
+        alignItems = Align.center
+        justifyContent = JustifyContent.center
+        gap = space16px
+        padding = Padding(space8px)
     }
+    rule(".mascot") {
+        height = clamp(90.px, 14.vw, 170.px)
+        width = LinearDimension.auto
+    }
+}
+
+private fun CssBuilder.typography() {
     h1 {
-        fontSize = 3.2.em
+        fontSize = clamp(1.8.rem, 5.vw, 2.6.rem)
         fontWeight = FontWeight.bold
-        marginBottom = 16.px
+        marginBottom = space16px
         color = Color.blackBean
-        put("-webkit-text-stroke", "0.3px #c19a6b")
     }
     h2 {
-        fontSize = 1.6.em
+        fontSize = clamp(1.05.rem, 2.5.vw, 1.35.rem)
+        lineHeight = LineHeight("1.4")
         fontWeight = FontWeight.bold
-        marginBottom = 24.px
+        margin = Margin(LinearDimension.auto, LinearDimension.auto, space24px)
+        maxWidth = 36.rem
         color = Color.blackBean
-        put("-webkit-text-stroke", "0.1px #c19a6b")
     }
     rule(".won") {
-        color = Color.darkOliveGreen
+        color = Color.winGreen
     }
     rule(".lost") {
-        color = Color.darkRed
+        color = Color.lossBrick
     }
     rule(".invalid") {
-        color = Color.darkRed
+        color = Color.lossBrick
     }
+}
+
+private fun CssBuilder.formStyles() {
     rule("form") {
         display = Display.flex
-        gap = 8.px
-        marginBottom = 24.px
+        justifyContent = JustifyContent.center
+        gap = space8px
+        marginBottom = space24px
     }
     rule(".form-slot") {
-        height = 48.px
+        minHeight = 48.px
         paddingBottom = 15.px
     }
     rule("input[type=text]") {
         flexGrow = 1.0
-        padding = Padding(12.px)
-        fontFamily = "monospace"
+        padding = Padding(space12px)
+        fontFamily = fontStack
         fontWeight = FontWeight.bold
         fontSize = 20.px
-        letterSpacing = 8.px
-        borderRadius = 8.px
-        width = 200.px
-        border = Border(2.px, BorderStyle.solid, Color.darkSlateBlue)
+        letterSpacing = space8px
+        borderRadius = radiusMedium
+        width = 100.pct
+        maxWidth = 420.px
+        border = Border(2.px, BorderStyle.solid, Color.cafeNoir)
         backgroundColor = Color.cafeNoir
         color = Color("#d7dadc")
+        caretColor = Color.indianYellow
         textAlign = TextAlign.center
         textTransform = TextTransform.uppercase
     }
+    rule("input[type=text]:focus-visible") {
+        put("outline", "3px solid #e3a857")
+        put("outline-offset", "2px")
+    }
+    rule("input[type=text]::placeholder") {
+        color = Color.mutedTan
+        letterSpacing = space4px
+    }
+}
+
+private fun CssBuilder.boardStyles() {
     rule(".board") {
         display = Display.flex
         flexDirection = FlexDirection.column
@@ -182,7 +242,7 @@ val styles = CssBuilder().apply {
         height = clamp(60.px, 4.8.vw, 70.px)
         fontWeight = FontWeight.bold
         fontSize = clamp(13.px, 2.3.vw, 23.px)
-        borderRadius = clamp(6.px, 0.5.vw, 8.px)
+        borderRadius = clamp(radiusSmall, 0.5.vw, radiusMedium)
         backgroundColor = Color.cafeNoir
         color = Color.white
         textTransform = TextTransform.uppercase
@@ -200,7 +260,7 @@ val styles = CssBuilder().apply {
         animationTimingFunction = Timing.easeInOut
         animationFillMode = FillMode.forwards
     }
-    (1..100).forEach { i ->
+    (1..41).forEach { i ->
         rule(".tile:nth-child($i)") {
             animationDelay = (i * 0.03).s
         }
@@ -208,6 +268,7 @@ val styles = CssBuilder().apply {
     rule(".tile.hint") {
         backgroundColor = Color.indianYellow
         fontSize = clamp(12.px, 2.2.vw, 14.px)
+        lineHeight = LineHeight("1.15")
         backgroundImage = linearGradient(0.deg) {
             colorStop(Color("#ffd399"), 0.pct)
             colorStop(Color.transparent, 10.pct)
@@ -231,60 +292,161 @@ val styles = CssBuilder().apply {
         width = clamp(28.px, 2.vw, 38.px)
         height = clamp(30.px, 2.8.vw, 40.px)
     }
-    keyframes("color-animation") {
-        0 { color = Color.blackBean }
-        20  { color = Color.darkRed }
-        40  { color = Color.cafeNoir }
-        60  { color = Color.darkOliveGreen }
-        80  { color = Color.darkSlateBlue }
-        100 { color = Color.blackBean }
-    }
+}
+
+private fun CssBuilder.motion() {
     keyframes("slide-in") {
         from {
             val tsf = Transforms()
-            tsf.translateX(100.pct)
-            tsf.translateY((-10).px)
+            tsf.translateX(40.pct)
+            tsf.translateY((-6).px)
             transform = tsf
+            opacity = 0.0
         }
         to {
             val tsf = Transforms()
             tsf.translateX(0.px)
             tsf.translateY(0.px)
             transform = tsf
+            opacity = 1.0
         }
     }
-    rule(".color-gif") {
-        color = Color.blackBean
+    keyframes("banner-in") {
+        from {
+            val tsf = Transforms()
+            tsf.translateY(8.px)
+            transform = tsf
+            opacity = 0.0
+        }
+        to {
+            val tsf = Transforms()
+            tsf.translateY(0.px)
+            transform = tsf
+            opacity = 1.0
+        }
+    }
+    rule(".banner") {
+        display = Display.inlineFlex
+        alignItems = Align.center
+        justifyContent = JustifyContent.center
+        margin = Margin(0.px, LinearDimension.auto, space24px)
+        padding = Padding(space12px, space32px)
+        borderRadius = 999.px
+        color = Color.white
         fontWeight = FontWeight.bold
-        fontSize = 24.px
-        animationDuration = 3.5.s
-        animationTimingFunction = Timing.linear
-        animationIterationCount = Int.MAX_VALUE
-        animationName = "color-animation"
+        fontSize = 20.px
+        letterSpacing = 2.px
+        animationName = "banner-in"
+        animationDuration = 0.5.s
+        animationTimingFunction = Timing.easeInOut
+        animationFillMode = FillMode.forwards
+    }
+    rule(".banner-won") {
+        backgroundColor = Color.correctGuess
+    }
+    rule(".banner-lost") {
+        backgroundColor = Color.lossBrick
+    }
+}
+
+private fun CssBuilder.detailsStyles() {
+    rule("details") {
+        backgroundColor = Color("rgba(61, 12, 2, 0.06)")
+        borderRadius = radiusLarge
+        padding = Padding(space8px, space16px)
+        maxWidth = 48.rem
+        width = 100.pct
+        margin = Margin(space24px, LinearDimension.auto)
+        boxSizing = BoxSizing.borderBox
+    }
+    rule("summary") {
+        cursor = Cursor.pointer
+        padding = Padding(space12px)
+    }
+    rule("summary:focus-visible") {
+        put("outline", "3px solid #e3a857")
+        put("outline-offset", "2px")
+        borderRadius = radiusMedium
     }
     rule(".details") {
-        padding = Padding(12.px)
-        fontSize = 1.3.em
+        padding = Padding(space12px)
+        fontSize = 1.1.em
+        lineHeight = LineHeight("1.5")
         color = Color.blackBean
-        textAlign = TextAlign.justify
+        textAlign = TextAlign.left
     }
     rule(".details.notes") {
-        fontSize = 1.em
+        fontSize = 0.9.em
         fontStyle = FontStyle.italic
     }
     rule(".details.title") {
-        fontSize = 1.5.em
+        fontSize = 1.3.em
         textAlign = TextAlign.center
     }
+}
+
+private fun CssBuilder.footerStyles() {
     footer {
         fontSize = 1.em
         color = Color.blackBean
         textAlign = TextAlign.center
-        position = Position.fixed
-        bottom = 0.px
-        left = 0.px
         width = 100.pct
-        height = 2.rem
+        marginTop = LinearDimension.auto
+        padding = Padding(space16px, 0.px)
+    }
+}
+
+private fun CssBuilder.responsive() {
+    media("(max-width: 900px)") {
+        rule(".row") {
+            flexWrap = FlexWrap.wrap
+            gap = space4px
+            padding = Padding(space4px)
+            borderRadius = radiusMedium
+            backgroundColor = Color("rgba(61, 12, 2, 0.08)")
+        }
+        rule(".tile") {
+            flexShrink = 0.0
+        }
+        rule(".board") {
+            gap = space12px
+        }
+        rule(".site-header .row") {
+            backgroundColor = Color.transparent
+            padding = Padding(0.px)
+        }
+    }
+    media("(max-width: 600px)") {
+        rule("body") {
+            padding = Padding(space16px)
+        }
+        rule(".tile") {
+            width = clamp(32.px, 8.5.vw, 44.px)
+            height = clamp(34.px, 9.vw, 46.px)
+            fontSize = clamp(12.px, 4.vw, 16.px)
+        }
+        rule(".tile.hint") {
+            width = clamp(32.px, 8.5.vw, 44.px)
+            height = clamp(34.px, 9.vw, 46.px)
+            fontSize = 9.px
+            lineHeight = LineHeight("1.1")
+        }
+        rule("form") {
+            width = 100.pct
+        }
+        rule("input[type=text]") {
+            letterSpacing = 2.px
+            fontSize = 18.px
+            width = 100.pct
+        }
+        rule(".site-header") {
+            gap = space8px
+        }
+    }
+    media("(prefers-reduced-motion: reduce)") {
+        rule(".tile.slide, .row.slide, .banner") {
+            put("animation", "none")
+        }
     }
 }
 
@@ -302,3 +464,12 @@ private val Color.Companion.indianYellow: Color
 
 private val Color.Companion.bgBrown: Color
     get() = Color("#c19a6b")
+
+private val Color.Companion.winGreen: Color
+    get() = Color("#3f6f3a")
+
+private val Color.Companion.lossBrick: Color
+    get() = Color("#8c2f1b")
+
+private val Color.Companion.mutedTan: Color
+    get() = Color("#a88a63")

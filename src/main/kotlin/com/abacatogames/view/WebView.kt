@@ -30,7 +30,10 @@ import kotlinx.html.h1
 import kotlinx.html.h2
 import kotlinx.html.head
 import kotlinx.html.html
+import kotlinx.html.img
+import kotlinx.html.lang
 import kotlinx.html.link
+import kotlinx.html.meta
 import kotlinx.html.p
 import kotlinx.html.stream.createHTML
 import kotlinx.html.style
@@ -44,7 +47,10 @@ fun interface WebView : (Game) -> String {
             object : WebView {
                 override fun invoke(game: Game): String =
                     createHTML().html {
+                        lang = "en"
                         head {
+                            meta(charset = "utf-8")
+                            meta(name = "viewport", content = "width=device-width, initial-scale=1")
                             title { +"Where is Wordo?" }
                             style { +styles.toString() }
                             link {
@@ -55,7 +61,13 @@ fun interface WebView : (Game) -> String {
                         }
                         body {
                             div("container") {
-                                div("with-image") { whereIsWordo() }
+                                div("site-header") {
+                                    div("wordmark") { whereIsWordo() }
+                                    img(alt = "Wordo, the traveling mascot", src = "/wordov3.webp", classes = "mascot") {
+                                        width = "767"
+                                        height = "566"
+                                    }
+                                }
                                 gameInfo(game)
                                 guessForm(game.state)
                                 gameBoard(game.validGuesses, !game.lastGuessWasInvalid)
@@ -111,12 +123,12 @@ fun interface WebView : (Game) -> String {
                     when (game.state) {
                         GameState.WON -> {
                             h2("won") { +"Congratulations, you found Wordo!" }
-                            div("form-slot color-gif") { +"YOU WON!" }
+                            div("form-slot banner banner-won") { +"YOU WON!" }
                         }
 
                         GameState.LOST -> {
                             h2("lost") { +"You’re out of attempts for today — better luck tomorrow!" }
-                            div("form-slot color-gif") { +"GAME OVER" }
+                            div("form-slot banner banner-lost") { +"GAME OVER" }
                         }
 
                         GameState.NEW -> {
@@ -197,7 +209,10 @@ private fun CardinalDirection.toArrow(): String =
 
 suspend fun RoutingCall.gameErrorPage(error: Throwable) =
     respondHtml(HttpStatusCode.InternalServerError) {
+        lang = "en"
         head {
+            meta(charset = "utf-8")
+            meta(name = "viewport", content = "width=device-width, initial-scale=1")
             title { +"Where is Wordo?" }
             style { +styles.toString() }
         }
