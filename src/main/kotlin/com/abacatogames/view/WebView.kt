@@ -30,7 +30,9 @@ import kotlinx.html.h1
 import kotlinx.html.h2
 import kotlinx.html.head
 import kotlinx.html.html
+import kotlinx.html.lang
 import kotlinx.html.link
+import kotlinx.html.meta
 import kotlinx.html.p
 import kotlinx.html.stream.createHTML
 import kotlinx.html.style
@@ -44,7 +46,10 @@ fun interface WebView : (Game) -> String {
             object : WebView {
                 override fun invoke(game: Game): String =
                     createHTML().html {
+                        lang = "en"
                         head {
+                            meta(charset = "utf-8")
+                            meta(name = "viewport", content = "width=device-width, initial-scale=1")
                             title { +"Where is Wordo?" }
                             style { +styles.toString() }
                             link {
@@ -197,7 +202,10 @@ private fun CardinalDirection.toArrow(): String =
 
 suspend fun RoutingCall.gameErrorPage(error: Throwable) =
     respondHtml(HttpStatusCode.InternalServerError) {
+        lang = "en"
         head {
+            meta(charset = "utf-8")
+            meta(name = "viewport", content = "width=device-width, initial-scale=1")
             title { +"Where is Wordo?" }
             style { +styles.toString() }
         }

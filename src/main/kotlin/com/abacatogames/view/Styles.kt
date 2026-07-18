@@ -4,17 +4,19 @@ import kotlinx.css.Align
 import kotlinx.css.BackgroundRepeat
 import kotlinx.css.Border
 import kotlinx.css.BorderStyle
+import kotlinx.css.BoxSizing
 import kotlinx.css.Color
 import kotlinx.css.CssBuilder
 import kotlinx.css.Display
 import kotlinx.css.FlexDirection
+import kotlinx.css.FlexWrap
 import kotlinx.css.FontStyle
 import kotlinx.css.FontWeight
 import kotlinx.css.Image
 import kotlinx.css.JustifyContent
+import kotlinx.css.LinearDimension
 import kotlinx.css.Margin
 import kotlinx.css.Padding
-import kotlinx.css.Position
 import kotlinx.css.RelativePosition
 import kotlinx.css.TextAlign
 import kotlinx.css.TextTransform
@@ -32,13 +34,15 @@ import kotlinx.css.backgroundRepeat
 import kotlinx.css.backgroundSize
 import kotlinx.css.border
 import kotlinx.css.borderRadius
-import kotlinx.css.bottom
 import kotlinx.css.boxShadow
+import kotlinx.css.boxSizing
 import kotlinx.css.color
 import kotlinx.css.display
 import kotlinx.css.em
 import kotlinx.css.flexDirection
 import kotlinx.css.flexGrow
+import kotlinx.css.flexShrink
+import kotlinx.css.flexWrap
 import kotlinx.css.fontFamily
 import kotlinx.css.fontSize
 import kotlinx.css.fontStyle
@@ -50,15 +54,15 @@ import kotlinx.css.h2
 import kotlinx.css.height
 import kotlinx.css.justifyContent
 import kotlinx.css.keyframes
-import kotlinx.css.left
 import kotlinx.css.letterSpacing
 import kotlinx.css.margin
 import kotlinx.css.marginBottom
+import kotlinx.css.marginTop
 import kotlinx.css.maxWidth
+import kotlinx.css.minHeight
 import kotlinx.css.padding
 import kotlinx.css.paddingBottom
 import kotlinx.css.pct
-import kotlinx.css.position
 import kotlinx.css.properties.BoxShadow
 import kotlinx.css.properties.FillMode
 import kotlinx.css.properties.Timing
@@ -73,6 +77,7 @@ import kotlinx.css.rem
 import kotlinx.css.textAlign
 import kotlinx.css.textTransform
 import kotlinx.css.transform
+import kotlinx.css.vh
 import kotlinx.css.vw
 import kotlinx.css.width
 
@@ -82,7 +87,7 @@ val styles = CssBuilder().apply {
         margin = Margin(0.px)
         padding = Padding(0.px)
     }
-    rule("html, body") {
+    rule("html") {
         height = 100.pct
         margin = Margin(0.px)
         padding = Padding(0.px)
@@ -92,9 +97,15 @@ val styles = CssBuilder().apply {
         flexDirection = FlexDirection.column
         alignItems = Align.center
         fontFamily = "monospace"
+        margin = Margin(0.px)
         padding = Padding(32.px)
+        minHeight = 100.vh
+        boxSizing = BoxSizing.borderBox
     }
     rule(".container") {
+        display = Display.flex
+        flexDirection = FlexDirection.column
+        flexGrow = 1.0
         maxWidth = 1280.px
         width = 100.pct
         margin = Margin(0.px)
@@ -280,11 +291,49 @@ val styles = CssBuilder().apply {
         fontSize = 1.em
         color = Color.blackBean
         textAlign = TextAlign.center
-        position = Position.fixed
-        bottom = 0.px
-        left = 0.px
         width = 100.pct
-        height = 2.rem
+        marginTop = LinearDimension.auto
+        padding = Padding(16.px, 0.px)
+    }
+    media("(max-width: 900px)") {
+        rule(".row") {
+            flexWrap = FlexWrap.wrap
+            gap = 4.px
+            padding = Padding(4.px)
+            borderRadius = 8.px
+            backgroundColor = Color("rgba(61, 12, 2, 0.08)")
+        }
+        rule(".tile") {
+            flexShrink = 0.0
+        }
+        rule(".board") {
+            gap = 12.px
+        }
+        rule(".with-image .row") {
+            backgroundColor = Color.transparent
+            padding = Padding(0.px)
+        }
+    }
+    media("(max-width: 600px)") {
+        rule("body") {
+            padding = Padding(16.px)
+        }
+        rule(".tile") {
+            width = clamp(32.px, 8.5.vw, 44.px)
+            height = clamp(34.px, 9.vw, 46.px)
+            fontSize = clamp(12.px, 4.vw, 16.px)
+        }
+        rule("form") {
+            width = 100.pct
+        }
+        rule("input[type=text]") {
+            letterSpacing = 2.px
+            fontSize = 18.px
+            width = 100.pct
+        }
+        rule(".with-image") {
+            backgroundPosition = RelativePosition.rightTop(yOffset = 0.px, xOffset = 0.px)
+        }
     }
 }
 
