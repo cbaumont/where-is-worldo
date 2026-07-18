@@ -7,6 +7,7 @@ import kotlinx.css.BorderStyle
 import kotlinx.css.BoxSizing
 import kotlinx.css.Color
 import kotlinx.css.CssBuilder
+import kotlinx.css.Cursor
 import kotlinx.css.Display
 import kotlinx.css.FlexDirection
 import kotlinx.css.FlexWrap
@@ -36,7 +37,9 @@ import kotlinx.css.border
 import kotlinx.css.borderRadius
 import kotlinx.css.boxShadow
 import kotlinx.css.boxSizing
+import kotlinx.css.caretColor
 import kotlinx.css.color
+import kotlinx.css.cursor
 import kotlinx.css.display
 import kotlinx.css.em
 import kotlinx.css.flexDirection
@@ -55,6 +58,7 @@ import kotlinx.css.height
 import kotlinx.css.justifyContent
 import kotlinx.css.keyframes
 import kotlinx.css.letterSpacing
+import kotlinx.css.lineHeight
 import kotlinx.css.margin
 import kotlinx.css.marginBottom
 import kotlinx.css.marginTop
@@ -65,6 +69,7 @@ import kotlinx.css.paddingBottom
 import kotlinx.css.pct
 import kotlinx.css.properties.BoxShadow
 import kotlinx.css.properties.FillMode
+import kotlinx.css.properties.LineHeight
 import kotlinx.css.properties.Timing
 import kotlinx.css.properties.Transforms
 import kotlinx.css.properties.deg
@@ -148,38 +153,39 @@ private fun CssBuilder.headerStyles() {
 
 private fun CssBuilder.typography() {
     h1 {
-        fontSize = 3.2.em
+        fontSize = clamp(1.8.rem, 5.vw, 2.6.rem)
         fontWeight = FontWeight.bold
         marginBottom = space4
         color = Color.blackBean
-        put("-webkit-text-stroke", "0.3px #c19a6b")
     }
     h2 {
-        fontSize = 1.6.em
+        fontSize = clamp(1.05.rem, 2.5.vw, 1.35.rem)
+        lineHeight = LineHeight("1.4")
         fontWeight = FontWeight.bold
-        marginBottom = space5
+        margin = Margin(LinearDimension.auto, LinearDimension.auto, space5)
+        maxWidth = 36.rem
         color = Color.blackBean
-        put("-webkit-text-stroke", "0.1px #c19a6b")
     }
     rule(".won") {
-        color = Color.darkOliveGreen
+        color = Color.winGreen
     }
     rule(".lost") {
-        color = Color.darkRed
+        color = Color.lossBrick
     }
     rule(".invalid") {
-        color = Color.darkRed
+        color = Color.lossBrick
     }
 }
 
 private fun CssBuilder.formStyles() {
     rule("form") {
         display = Display.flex
+        justifyContent = JustifyContent.center
         gap = space2
         marginBottom = space5
     }
     rule(".form-slot") {
-        height = 48.px
+        minHeight = 48.px
         paddingBottom = 15.px
     }
     rule("input[type=text]") {
@@ -190,12 +196,22 @@ private fun CssBuilder.formStyles() {
         fontSize = 20.px
         letterSpacing = space2
         borderRadius = radiusMedium
-        width = 200.px
+        width = 100.pct
+        maxWidth = 420.px
         border = Border(2.px, BorderStyle.solid, Color.cafeNoir)
         backgroundColor = Color.cafeNoir
         color = Color("#d7dadc")
+        caretColor = Color.indianYellow
         textAlign = TextAlign.center
         textTransform = TextTransform.uppercase
+    }
+    rule("input[type=text]:focus-visible") {
+        put("outline", "3px solid #e3a857")
+        put("outline-offset", "2px")
+    }
+    rule("input[type=text]::placeholder") {
+        color = Color.mutedTan
+        letterSpacing = space1
     }
 }
 
@@ -314,18 +330,37 @@ private fun CssBuilder.motion() {
 }
 
 private fun CssBuilder.detailsStyles() {
+    rule("details") {
+        backgroundColor = Color("rgba(61, 12, 2, 0.06)")
+        borderRadius = radiusLarge
+        padding = Padding(space2, space4)
+        maxWidth = 48.rem
+        width = 100.pct
+        margin = Margin(space5, LinearDimension.auto)
+        boxSizing = BoxSizing.borderBox
+    }
+    rule("summary") {
+        cursor = Cursor.pointer
+        padding = Padding(space3)
+    }
+    rule("summary:focus-visible") {
+        put("outline", "3px solid #e3a857")
+        put("outline-offset", "2px")
+        borderRadius = radiusMedium
+    }
     rule(".details") {
         padding = Padding(space3)
-        fontSize = 1.3.em
+        fontSize = 1.1.em
+        lineHeight = LineHeight("1.5")
         color = Color.blackBean
-        textAlign = TextAlign.justify
+        textAlign = TextAlign.left
     }
     rule(".details.notes") {
-        fontSize = 1.em
+        fontSize = 0.9.em
         fontStyle = FontStyle.italic
     }
     rule(".details.title") {
-        fontSize = 1.5.em
+        fontSize = 1.3.em
         textAlign = TextAlign.center
     }
 }
