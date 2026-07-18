@@ -80,12 +80,12 @@ import kotlinx.css.vh
 import kotlinx.css.vw
 import kotlinx.css.width
 
-private val space1 = 4.px
-private val space2 = 8.px
-private val space3 = 12.px
-private val space4 = 16.px
-private val space5 = 24.px
-private val space6 = 32.px
+private val space4px = 4.px
+private val space8px = 8.px
+private val space12px = 12.px
+private val space16px = 16.px
+private val space24px = 24.px
+private val space32px = 32.px
 private val radiusSmall = 6.px
 private val radiusMedium = 8.px
 private val radiusLarge = 12.px
@@ -120,7 +120,7 @@ private fun CssBuilder.base() {
         alignItems = Align.center
         fontFamily = fontStack
         margin = Margin(0.px)
-        padding = Padding(space6)
+        padding = Padding(space32px)
         minHeight = 100.vh
         boxSizing = BoxSizing.borderBox
     }
@@ -140,8 +140,8 @@ private fun CssBuilder.headerStyles() {
         display = Display.flex
         alignItems = Align.center
         justifyContent = JustifyContent.center
-        gap = space4
-        padding = Padding(space2)
+        gap = space16px
+        padding = Padding(space8px)
     }
     rule(".mascot") {
         height = clamp(90.px, 14.vw, 170.px)
@@ -153,14 +153,14 @@ private fun CssBuilder.typography() {
     h1 {
         fontSize = clamp(1.8.rem, 5.vw, 2.6.rem)
         fontWeight = FontWeight.bold
-        marginBottom = space4
+        marginBottom = space16px
         color = Color.blackBean
     }
     h2 {
         fontSize = clamp(1.05.rem, 2.5.vw, 1.35.rem)
         lineHeight = LineHeight("1.4")
         fontWeight = FontWeight.bold
-        margin = Margin(LinearDimension.auto, LinearDimension.auto, space5)
+        margin = Margin(LinearDimension.auto, LinearDimension.auto, space24px)
         maxWidth = 36.rem
         color = Color.blackBean
     }
@@ -179,8 +179,8 @@ private fun CssBuilder.formStyles() {
     rule("form") {
         display = Display.flex
         justifyContent = JustifyContent.center
-        gap = space2
-        marginBottom = space5
+        gap = space8px
+        marginBottom = space24px
     }
     rule(".form-slot") {
         minHeight = 48.px
@@ -188,11 +188,11 @@ private fun CssBuilder.formStyles() {
     }
     rule("input[type=text]") {
         flexGrow = 1.0
-        padding = Padding(space3)
+        padding = Padding(space12px)
         fontFamily = fontStack
         fontWeight = FontWeight.bold
         fontSize = 20.px
-        letterSpacing = space2
+        letterSpacing = space8px
         borderRadius = radiusMedium
         width = 100.pct
         maxWidth = 420.px
@@ -209,7 +209,7 @@ private fun CssBuilder.formStyles() {
     }
     rule("input[type=text]::placeholder") {
         color = Color.mutedTan
-        letterSpacing = space1
+        letterSpacing = space4px
     }
 }
 
@@ -329,8 +329,8 @@ private fun CssBuilder.motion() {
         display = Display.inlineFlex
         alignItems = Align.center
         justifyContent = JustifyContent.center
-        margin = Margin(0.px, LinearDimension.auto, space5)
-        padding = Padding(space3, space6)
+        margin = Margin(0.px, LinearDimension.auto, space24px)
+        padding = Padding(space12px, space32px)
         borderRadius = 999.px
         color = Color.white
         fontWeight = FontWeight.bold
@@ -353,15 +353,15 @@ private fun CssBuilder.detailsStyles() {
     rule("details") {
         backgroundColor = Color("rgba(61, 12, 2, 0.06)")
         borderRadius = radiusLarge
-        padding = Padding(space2, space4)
+        padding = Padding(space8px, space16px)
         maxWidth = 48.rem
         width = 100.pct
-        margin = Margin(space5, LinearDimension.auto)
+        margin = Margin(space24px, LinearDimension.auto)
         boxSizing = BoxSizing.borderBox
     }
     rule("summary") {
         cursor = Cursor.pointer
-        padding = Padding(space3)
+        padding = Padding(space12px)
     }
     rule("summary:focus-visible") {
         put("outline", "3px solid #e3a857")
@@ -369,7 +369,7 @@ private fun CssBuilder.detailsStyles() {
         borderRadius = radiusMedium
     }
     rule(".details") {
-        padding = Padding(space3)
+        padding = Padding(space12px)
         fontSize = 1.1.em
         lineHeight = LineHeight("1.5")
         color = Color.blackBean
@@ -392,7 +392,7 @@ private fun CssBuilder.footerStyles() {
         textAlign = TextAlign.center
         width = 100.pct
         marginTop = LinearDimension.auto
-        padding = Padding(space4, 0.px)
+        padding = Padding(space16px, 0.px)
     }
 }
 
@@ -400,8 +400,8 @@ private fun CssBuilder.responsive() {
     media("(max-width: 900px)") {
         rule(".row") {
             flexWrap = FlexWrap.wrap
-            gap = space1
-            padding = Padding(space1)
+            gap = space4px
+            padding = Padding(space4px)
             borderRadius = radiusMedium
             backgroundColor = Color("rgba(61, 12, 2, 0.08)")
         }
@@ -409,7 +409,7 @@ private fun CssBuilder.responsive() {
             flexShrink = 0.0
         }
         rule(".board") {
-            gap = space3
+            gap = space12px
         }
         rule(".site-header .row") {
             backgroundColor = Color.transparent
@@ -418,7 +418,7 @@ private fun CssBuilder.responsive() {
     }
     media("(max-width: 600px)") {
         rule("body") {
-            padding = Padding(space4)
+            padding = Padding(space16px)
         }
         rule(".tile") {
             width = clamp(32.px, 8.5.vw, 44.px)
@@ -440,7 +440,7 @@ private fun CssBuilder.responsive() {
             width = 100.pct
         }
         rule(".site-header") {
-            gap = space2
+            gap = space8px
         }
     }
     media("(prefers-reduced-motion: reduce)") {
