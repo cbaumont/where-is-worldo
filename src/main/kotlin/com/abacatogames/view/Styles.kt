@@ -426,9 +426,10 @@ private fun CssBuilder.responsive() {
             fontSize = clamp(12.px, 4.vw, 16.px)
         }
         rule(".tile.hint") {
-            width = clamp(44.px, 12.vw, 52.px)
-            height = clamp(48.px, 13.vw, 56.px)
-            fontSize = 10.px
+            width = clamp(32.px, 8.5.vw, 44.px)
+            height = clamp(34.px, 9.vw, 46.px)
+            fontSize = 9.px
+            lineHeight = LineHeight("1.1")
         }
         rule("form") {
             width = 100.pct
