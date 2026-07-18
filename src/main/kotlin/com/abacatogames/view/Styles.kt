@@ -81,7 +81,30 @@ import kotlinx.css.vh
 import kotlinx.css.vw
 import kotlinx.css.width
 
+private val space1 = 4.px
+private val space2 = 8.px
+private val space3 = 12.px
+private val space4 = 16.px
+private val space5 = 24.px
+private val space6 = 32.px
+private val radiusSmall = 6.px
+private val radiusMedium = 8.px
+private val radiusLarge = 12.px
+private const val fontStack = "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace"
+
 val styles = CssBuilder().apply {
+    base()
+    headerStyles()
+    typography()
+    formStyles()
+    boardStyles()
+    motion()
+    detailsStyles()
+    footerStyles()
+    responsive()
+}
+
+private fun CssBuilder.base() {
     root {
         backgroundColor = Color.bgBrown
         margin = Margin(0.px)
@@ -96,9 +119,9 @@ val styles = CssBuilder().apply {
         display = Display.flex
         flexDirection = FlexDirection.column
         alignItems = Align.center
-        fontFamily = "monospace"
+        fontFamily = fontStack
         margin = Margin(0.px)
-        padding = Padding(32.px)
+        padding = Padding(space6)
         minHeight = 100.vh
         boxSizing = BoxSizing.borderBox
     }
@@ -111,6 +134,9 @@ val styles = CssBuilder().apply {
         margin = Margin(0.px)
         textAlign = TextAlign.center
     }
+}
+
+private fun CssBuilder.headerStyles() {
     rule(".with-image") {
         backgroundImage = Image("url(/wordov3.webp)")
         backgroundSize = "contain"
@@ -118,17 +144,20 @@ val styles = CssBuilder().apply {
         backgroundRepeat = BackgroundRepeat.noRepeat
         padding = Padding(0.5.vw)
     }
+}
+
+private fun CssBuilder.typography() {
     h1 {
         fontSize = 3.2.em
         fontWeight = FontWeight.bold
-        marginBottom = 16.px
+        marginBottom = space4
         color = Color.blackBean
         put("-webkit-text-stroke", "0.3px #c19a6b")
     }
     h2 {
         fontSize = 1.6.em
         fontWeight = FontWeight.bold
-        marginBottom = 24.px
+        marginBottom = space5
         color = Color.blackBean
         put("-webkit-text-stroke", "0.1px #c19a6b")
     }
@@ -141,10 +170,13 @@ val styles = CssBuilder().apply {
     rule(".invalid") {
         color = Color.darkRed
     }
+}
+
+private fun CssBuilder.formStyles() {
     rule("form") {
         display = Display.flex
-        gap = 8.px
-        marginBottom = 24.px
+        gap = space2
+        marginBottom = space5
     }
     rule(".form-slot") {
         height = 48.px
@@ -152,19 +184,22 @@ val styles = CssBuilder().apply {
     }
     rule("input[type=text]") {
         flexGrow = 1.0
-        padding = Padding(12.px)
-        fontFamily = "monospace"
+        padding = Padding(space3)
+        fontFamily = fontStack
         fontWeight = FontWeight.bold
         fontSize = 20.px
-        letterSpacing = 8.px
-        borderRadius = 8.px
+        letterSpacing = space2
+        borderRadius = radiusMedium
         width = 200.px
-        border = Border(2.px, BorderStyle.solid, Color.darkSlateBlue)
+        border = Border(2.px, BorderStyle.solid, Color.cafeNoir)
         backgroundColor = Color.cafeNoir
         color = Color("#d7dadc")
         textAlign = TextAlign.center
         textTransform = TextTransform.uppercase
     }
+}
+
+private fun CssBuilder.boardStyles() {
     rule(".board") {
         display = Display.flex
         flexDirection = FlexDirection.column
@@ -193,7 +228,7 @@ val styles = CssBuilder().apply {
         height = clamp(60.px, 4.8.vw, 70.px)
         fontWeight = FontWeight.bold
         fontSize = clamp(13.px, 2.3.vw, 23.px)
-        borderRadius = clamp(6.px, 0.5.vw, 8.px)
+        borderRadius = clamp(radiusSmall, 0.5.vw, radiusMedium)
         backgroundColor = Color.cafeNoir
         color = Color.white
         textTransform = TextTransform.uppercase
@@ -242,12 +277,15 @@ val styles = CssBuilder().apply {
         width = clamp(28.px, 2.vw, 38.px)
         height = clamp(30.px, 2.8.vw, 40.px)
     }
+}
+
+private fun CssBuilder.motion() {
     keyframes("color-animation") {
         0 { color = Color.blackBean }
-        20  { color = Color.darkRed }
-        40  { color = Color.cafeNoir }
-        60  { color = Color.darkOliveGreen }
-        80  { color = Color.darkSlateBlue }
+        20 { color = Color.darkRed }
+        40 { color = Color.cafeNoir }
+        60 { color = Color.darkOliveGreen }
+        80 { color = Color.darkSlateBlue }
         100 { color = Color.blackBean }
     }
     keyframes("slide-in") {
@@ -273,8 +311,11 @@ val styles = CssBuilder().apply {
         animationIterationCount = Int.MAX_VALUE
         animationName = "color-animation"
     }
+}
+
+private fun CssBuilder.detailsStyles() {
     rule(".details") {
-        padding = Padding(12.px)
+        padding = Padding(space3)
         fontSize = 1.3.em
         color = Color.blackBean
         textAlign = TextAlign.justify
@@ -287,27 +328,33 @@ val styles = CssBuilder().apply {
         fontSize = 1.5.em
         textAlign = TextAlign.center
     }
+}
+
+private fun CssBuilder.footerStyles() {
     footer {
         fontSize = 1.em
         color = Color.blackBean
         textAlign = TextAlign.center
         width = 100.pct
         marginTop = LinearDimension.auto
-        padding = Padding(16.px, 0.px)
+        padding = Padding(space4, 0.px)
     }
+}
+
+private fun CssBuilder.responsive() {
     media("(max-width: 900px)") {
         rule(".row") {
             flexWrap = FlexWrap.wrap
-            gap = 4.px
-            padding = Padding(4.px)
-            borderRadius = 8.px
+            gap = space1
+            padding = Padding(space1)
+            borderRadius = radiusMedium
             backgroundColor = Color("rgba(61, 12, 2, 0.08)")
         }
         rule(".tile") {
             flexShrink = 0.0
         }
         rule(".board") {
-            gap = 12.px
+            gap = space3
         }
         rule(".with-image .row") {
             backgroundColor = Color.transparent
@@ -316,7 +363,7 @@ val styles = CssBuilder().apply {
     }
     media("(max-width: 600px)") {
         rule("body") {
-            padding = Padding(16.px)
+            padding = Padding(space4)
         }
         rule(".tile") {
             width = clamp(32.px, 8.5.vw, 44.px)
@@ -351,3 +398,12 @@ private val Color.Companion.indianYellow: Color
 
 private val Color.Companion.bgBrown: Color
     get() = Color("#c19a6b")
+
+private val Color.Companion.winGreen: Color
+    get() = Color("#3f6f3a")
+
+private val Color.Companion.lossBrick: Color
+    get() = Color("#8c2f1b")
+
+private val Color.Companion.mutedTan: Color
+    get() = Color("#a88a63")
