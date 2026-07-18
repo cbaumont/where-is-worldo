@@ -30,6 +30,7 @@ import kotlinx.html.h1
 import kotlinx.html.h2
 import kotlinx.html.head
 import kotlinx.html.html
+import kotlinx.html.img
 import kotlinx.html.lang
 import kotlinx.html.link
 import kotlinx.html.meta
@@ -60,7 +61,13 @@ fun interface WebView : (Game) -> String {
                         }
                         body {
                             div("container") {
-                                div("with-image") { whereIsWordo() }
+                                div("site-header") {
+                                    div("wordmark") { whereIsWordo() }
+                                    img(alt = "Wordo, the traveling mascot", src = "/wordov3.webp", classes = "mascot") {
+                                        width = "767"
+                                        height = "566"
+                                    }
+                                }
                                 gameInfo(game)
                                 guessForm(game.state)
                                 gameBoard(game.validGuesses, !game.lastGuessWasInvalid)

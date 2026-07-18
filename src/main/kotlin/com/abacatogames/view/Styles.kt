@@ -1,7 +1,6 @@
 package com.abacatogames.view
 
 import kotlinx.css.Align
-import kotlinx.css.BackgroundRepeat
 import kotlinx.css.Border
 import kotlinx.css.BorderStyle
 import kotlinx.css.BoxSizing
@@ -13,12 +12,10 @@ import kotlinx.css.FlexDirection
 import kotlinx.css.FlexWrap
 import kotlinx.css.FontStyle
 import kotlinx.css.FontWeight
-import kotlinx.css.Image
 import kotlinx.css.JustifyContent
 import kotlinx.css.LinearDimension
 import kotlinx.css.Margin
 import kotlinx.css.Padding
-import kotlinx.css.RelativePosition
 import kotlinx.css.TextAlign
 import kotlinx.css.TextTransform
 import kotlinx.css.alignItems
@@ -30,9 +27,6 @@ import kotlinx.css.animationName
 import kotlinx.css.animationTimingFunction
 import kotlinx.css.backgroundColor
 import kotlinx.css.backgroundImage
-import kotlinx.css.backgroundPosition
-import kotlinx.css.backgroundRepeat
-import kotlinx.css.backgroundSize
 import kotlinx.css.border
 import kotlinx.css.borderRadius
 import kotlinx.css.boxShadow
@@ -142,12 +136,16 @@ private fun CssBuilder.base() {
 }
 
 private fun CssBuilder.headerStyles() {
-    rule(".with-image") {
-        backgroundImage = Image("url(/wordov3.webp)")
-        backgroundSize = "contain"
-        backgroundPosition = RelativePosition.rightTop(yOffset = 0.px, xOffset = clamp(100.px, 8.5.vw, 120.px))
-        backgroundRepeat = BackgroundRepeat.noRepeat
-        padding = Padding(0.5.vw)
+    rule(".site-header") {
+        display = Display.flex
+        alignItems = Align.center
+        justifyContent = JustifyContent.center
+        gap = space4
+        padding = Padding(space2)
+    }
+    rule(".mascot") {
+        height = clamp(90.px, 14.vw, 170.px)
+        width = LinearDimension.auto
     }
 }
 
@@ -391,7 +389,7 @@ private fun CssBuilder.responsive() {
         rule(".board") {
             gap = space3
         }
-        rule(".with-image .row") {
+        rule(".site-header .row") {
             backgroundColor = Color.transparent
             padding = Padding(0.px)
         }
@@ -413,8 +411,8 @@ private fun CssBuilder.responsive() {
             fontSize = 18.px
             width = 100.pct
         }
-        rule(".with-image") {
-            backgroundPosition = RelativePosition.rightTop(yOffset = 0.px, xOffset = 0.px)
+        rule(".site-header") {
+            gap = space2
         }
     }
 }
