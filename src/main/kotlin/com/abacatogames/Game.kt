@@ -6,11 +6,11 @@ import com.abacatogames.word.WordGuess
 class Game(
     val maxAttempts: Int = 6,
     val proposedWord: String,
-    val validator: (String) -> Boolean,
+    val canonicalise: (String) -> String?,
     guesses: List<WordGuess?> = listOf(),
 ) {
     private val verifiedWord: VerifiedWord =
-        VerifiedWord.of(proposedWord, validator) ?: error("Unable to start the game with word: $proposedWord")
+        VerifiedWord.of(proposedWord, canonicalise) ?: error("Unable to start the game with word: $proposedWord")
     private val mutableGuesses = guesses.toMutableList()
 
     val allGuesses: List<WordGuess?>
@@ -31,7 +31,7 @@ class Game(
         get() = mutableGuesses.isNotEmpty() && mutableGuesses.lastOrNull() == null
 
     fun validateAndAddGuess(guess: String) {
-        VerifiedWord.of(guess, validator)?.value
+        VerifiedWord.of(guess, canonicalise)?.value
             ?.let { WordGuess(it, verifiedWord.value) }
             .let { wordGuess ->
                 mutableGuesses.removeAll { it == null }

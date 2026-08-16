@@ -1,7 +1,7 @@
 package com.abacatogames.view
 
 import com.abacatogames.Game
-import com.abacatogames.geo.isAValidCountry
+import com.abacatogames.geo.toCountryName
 import kotlin.test.Test
 import kotlin.test.assertContains
 
@@ -11,7 +11,7 @@ abstract class GameViewContractTest(val gameView: (Game) -> String) {
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         assertContains(gameView(game), "Take a guess, any country will do!")
@@ -22,7 +22,7 @@ abstract class GameViewContractTest(val gameView: (Game) -> String) {
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         game.validateAndAddGuess("GUYANA")
@@ -35,7 +35,7 @@ abstract class GameViewContractTest(val gameView: (Game) -> String) {
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = String::isAValidCountry
+            canonicalise = String::toCountryName
         )
 
         game.validateAndAddGuess("GUESS")
@@ -48,7 +48,7 @@ abstract class GameViewContractTest(val gameView: (Game) -> String) {
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         game.validateAndAddGuess("GREENLAND")
@@ -61,7 +61,7 @@ abstract class GameViewContractTest(val gameView: (Game) -> String) {
         val game = Game(
             maxAttempts = 1,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         game.validateAndAddGuess("GUYANA")

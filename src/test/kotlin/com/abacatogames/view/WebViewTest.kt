@@ -19,7 +19,7 @@ class WebViewTest : GameViewContractTest(gameView = WebView.create(GeoDistance.c
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = { true }
+            canonicalise = { it }
         )
 
         game.validateAndAddGuess("GUYANA")
@@ -50,7 +50,7 @@ class WebViewTest : GameViewContractTest(gameView = WebView.create(GeoDistance.c
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = { true }
+            canonicalise = { it }
         )
 
         val result = gameView(game)

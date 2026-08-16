@@ -7,7 +7,7 @@ import kotlin.random.Random
 fun Application.dependencies() {
     dependencies {
         provide<GeoDistance> { GeoDistance.create() }
-        provide<(String) -> Boolean> { String::isAValidCountry }
+        provide<(String) -> String?> { String::toCountryName }
         provide<(Random) -> String> { ::randomCountry }
     }
 }

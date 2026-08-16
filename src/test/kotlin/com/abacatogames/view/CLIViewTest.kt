@@ -11,7 +11,7 @@ class CLIViewTest : GameViewContractTest(gameView = CLIView.create()) {
         val game = Game(
             maxAttempts = 3,
             proposedWord = "GREENLAND",
-            validator = { true }
+            canonicalise = { it }
         )
         val expected = "${CLIColours.GREEN.code}G${CLIColours.DEFAULT.code} U Y " +
                 "${CLIColours.GREEN.code}A${CLIColours.DEFAULT.code} " +

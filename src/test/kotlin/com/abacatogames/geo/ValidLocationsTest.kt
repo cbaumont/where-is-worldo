@@ -22,4 +22,12 @@ class ValidLocationsTest {
 
         assertFalse(result)
     }
+
+    @Test
+    fun `finds location word regardless of accents`() {
+        assertTrue("curacao".isAValidCountry())
+        assertTrue("Curaçao".isAValidCountry())
+        assertTrue("Côte d'Ivoire".isAValidCountry())
+        assertTrue("cote divoire".isAValidCountry())
+    }
 }

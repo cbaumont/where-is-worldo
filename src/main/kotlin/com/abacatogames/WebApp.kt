@@ -36,7 +36,7 @@ data class GameSession(val dateRef: Long, val guesses: List<WordGuess?>)
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module(
-    validator: (String) -> Boolean,
+    canonicalise: (String) -> String?,
     wordGenerator: (LocalDate) -> String,
     webView: (Game) -> String,
 ) {
@@ -75,7 +75,7 @@ fun Application.module(
 
                 val game = Game(
                     proposedWord = wordGenerator(LocalDate.now()),
-                    validator = validator,
+                    canonicalise = canonicalise,
                     guesses = call.sessions.get<GameSession>()!!.guesses
                 )
 
@@ -94,7 +94,7 @@ fun Application.module(
 
                 val game = Game(
                     proposedWord = wordGenerator(LocalDate.now()),
-                    validator = validator,
+                    canonicalise = canonicalise,
                     guesses = session.guesses
                 )
 

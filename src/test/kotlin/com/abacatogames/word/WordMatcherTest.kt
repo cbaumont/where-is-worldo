@@ -77,6 +77,45 @@ class WordMatcherTest {
     }
 
     @Test
+    fun `all letters in the word match ignoring accents`() {
+        val guess = WordGuess(
+            value = "Curacao",
+            correctWord = "Curaçao"
+        )
+
+        val expected = mapOf(
+            0 to true,
+            1 to true,
+            2 to true,
+            3 to true,
+            4 to true,
+            5 to true,
+            6 to true,
+        )
+
+        assertEquals(expected, guess.matches)
+        assertTrue(guess.fullMatch)
+    }
+
+    @Test
+    fun `accented letters match their unaccented counterparts`() {
+        val guess = WordGuess(
+            value = "Chad",
+            correctWord = "Curaçao"
+        )
+
+        val expected = mapOf(
+            0 to true,
+            1 to false,
+            2 to true,
+            3 to false,
+        )
+
+        assertEquals(expected, guess.matches)
+        assertFalse(guess.fullMatch)
+    }
+
+    @Test
     fun `does not match when guess letters are out of order`() {
         val correctWord = "BRAZIL"
 
