@@ -8,8 +8,6 @@ private val NonAlphanumeric = Regex("[^A-Z0-9]")
 fun String.toCountryKey(): String =
     withoutDiacritics().uppercase().replace(NonAlphanumeric, "")
 
-fun String.isAValidCountry(): Boolean = toCountryKey() in CountriesByKey
-
 fun String.toCountryName(): String? = CountriesByKey[toCountryKey()]?.name
 
 fun randomCountry(random: Random): String = CountryNames.random(random)
