@@ -4,9 +4,9 @@ package com.abacatogames.word
 value class VerifiedWord internal constructor(val value: String) {
 
     companion object {
-        fun of(rawValue: String?, validation: (String) -> Boolean): VerifiedWord? =
+        fun of(rawValue: String?, canonicalise: (String) -> String?): VerifiedWord? =
             rawValue
-                ?.takeIf { validation(it) }
+                ?.let(canonicalise)
                 ?.let { VerifiedWord(it) }
     }
 }

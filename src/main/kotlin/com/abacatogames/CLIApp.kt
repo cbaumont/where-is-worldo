@@ -1,13 +1,13 @@
 package com.abacatogames
 
-import com.abacatogames.geo.isAValidCountry
+import com.abacatogames.geo.toCountryName
 import com.abacatogames.view.CLIView
 
 fun main() {
     val game = Game(
         maxAttempts = 6,
         proposedWord = "GREENLAND",
-        validator = String::isAValidCountry
+        canonicalise = String::toCountryName
     )
 
     println(CLIView.create()(game))

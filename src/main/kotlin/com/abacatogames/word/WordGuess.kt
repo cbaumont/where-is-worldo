@@ -8,9 +8,10 @@ data class WordGuess(
     val correctWord: String
 ) {
     val matches: Map<Int, Boolean> by lazy {
-        var wordCheck = correctWord.uppercase()
+        var wordCheck = correctWord.withoutDiacritics().uppercase()
 
         value
+            .withoutDiacritics()
             .uppercase()
             .foldIndexed(mutableMapOf()) { i, acc, ch ->
                 if (ch in wordCheck) {
@@ -22,5 +23,6 @@ data class WordGuess(
                 acc
             }
     }
-    val fullMatch: Boolean = value.equals(correctWord, ignoreCase = true)
+    val fullMatch: Boolean =
+        value.withoutDiacritics().equals(correctWord.withoutDiacritics(), ignoreCase = true)
 }

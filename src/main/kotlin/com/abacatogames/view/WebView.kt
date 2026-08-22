@@ -109,7 +109,7 @@ fun interface WebView : (Game) -> String {
                                 guess.matches.forEach {
                                     val char = guess.value[it.key]
                                     val correctOrAbsent =
-                                        if ((char == ' ' && notFullMatch) || !it.value) "absent" else "correct"
+                                        if ((char in " '-" && notFullMatch) || !it.value) "absent" else "correct"
                                     val slide = if (idx == 0 && animationEnabled) " slide" else ""
                                     val tiny = if (tinyTiles) " tiny" else ""
                                     div("tile $correctOrAbsent$slide$tiny") { +char.toString() }

@@ -1,6 +1,6 @@
 package com.abacatogames
 
-import com.abacatogames.geo.isAValidCountry
+import com.abacatogames.geo.toCountryName
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -16,7 +16,7 @@ class GameTest {
             Game(
                 maxAttempts = 6,
                 proposedWord = "ENGLAND",
-                validator = String::isAValidCountry
+                canonicalise = String::toCountryName
             )
         }
 
@@ -28,7 +28,7 @@ class GameTest {
         val game = Game(
             maxAttempts = 6,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         assertEquals(expected = GameState.NEW, actual = game.state)
@@ -42,7 +42,7 @@ class GameTest {
         val game = Game(
             maxAttempts = 6,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         game.validateAndAddGuess("GREENLAND")
@@ -58,7 +58,7 @@ class GameTest {
         val game = Game(
             maxAttempts = 1,
             proposedWord = "GREENLAND",
-            validator = { _ -> true }
+            canonicalise = { it }
         )
 
         game.validateAndAddGuess("BRAZIL")
@@ -74,7 +74,7 @@ class GameTest {
         val game = Game(
             maxAttempts = 2,
             proposedWord = "GREENLAND",
-            validator = String::isAValidCountry
+            canonicalise = String::toCountryName
         )
 
         game.validateAndAddGuess("ENGLAND")
